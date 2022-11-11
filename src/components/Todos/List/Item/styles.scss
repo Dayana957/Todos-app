@@ -11,4 +11,13 @@
   &:last-child {
     margin-bottom: 0;
   }
+
+  .task-wait {
+    color: black;
+  }
+
+  .task-done {
+    color: grey;
+    text-decoration: line-through;
+  }
 }
