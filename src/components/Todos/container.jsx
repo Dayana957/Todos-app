@@ -21,6 +21,11 @@ class Todos extends React.Component {
   handleAddTodo = () => {
     const { enterTodo, todos } = this.state;
 
+    if (enterTodo === '') {
+      alert("You couldn't add empty todo!!!");
+      return;
+    }
+
     const newTodo = {
       id: Math.round(Math.random() * 100),
       value: enterTodo,
@@ -43,8 +48,23 @@ class Todos extends React.Component {
     })
   }
 
-  handleCheckTodo = () => {
-    // TODO: Write your logic for check todo here
+  handleCheckTodo = todoId => {
+    const { todos } = this.state;
+
+    const updatedTodos = todos.map(todo => {
+      if (todo.id === todoId) {
+        if (todo.checked) {
+          return Object.assign(todo, { checked: false });
+        } else {
+          return Object.assign(todo, {checked: true});
+        }
+      }
+      return todo;
+    })
+
+    this.setState({
+      todos: updatedTodos
+    })
   }
 
   get isTodosEmpty() {
@@ -54,16 +74,14 @@ class Todos extends React.Component {
   }
 
   render = () => {
-    const { enterTodo, todos } = this.state;
-
     return (
       <TodosComponent
-        enterTodo={enterTodo}
-        todos={todos}
-        isTodosEmpty={this.isTodosEmpty}
-        onEnterTodo={this.handleEnterTodo}
-        onAddTodo={this.handleAddTodo}
-        onRemoveTodo={this.handleRemoveTodo}
+          isTodosEmpty={this.isTodosEmpty}
+          onEnterTodo={this.handleEnterTodo}
+          onAddTodo={this.handleAddTodo}
+          onRemoveTodo={this.handleRemoveTodo}
+          onClickCheckTodo={this.handleCheckTodo}
+          {...this.state}
       />
     )
   }
